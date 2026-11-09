@@ -1,0 +1,19 @@
+# Secrets — never commit
+.env
+**/.env
+
+# Python (virtual environments — any name)
+backend/.venv/
+backend/venv/
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Claude Code local data
+.claude/
+
+# OS / editor
+.DS_Store
+Thumbs.db

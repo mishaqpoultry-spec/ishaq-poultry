@@ -1,0 +1,31 @@
+# Render Blueprint: deploys the FastAPI backend as a free web service.
+# Database is Neon (free, does not expire) — paste its connection string as DATABASE_URL.
+services:
+  - type: web
+    name: ishaq-poultry-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    # Migrations + first admin run on every start (both are safe to repeat).
+    startCommand: alembic upgrade head && python -m app.cli bootstrap-admin && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        sync: false # paste the Neon connection string in the Render dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: shahzad
+      - key: ADMIN_PASSWORD
+        sync: false # choose the owner's password in the Render dashboard
+      - key: ADMIN_FULL_NAME
+        value: M Ishaq
+      - key: COMPANY_NAME
+        value: M Ishaq Poultry Services
+      - key: COMPANY_PHONE
+        value: 0300-6388084
+      - key: ACCESS_TOKEN_MINUTES
+        value: "720"
